@@ -244,7 +244,7 @@ MODULE MODULE_MP_MORR_TWO_MOMENT
 CONTAINS
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-SUBROUTINE MORR_TWO_MOMENT_INIT(hail_opt) ! RAS
+SUBROUTINE MORR_TWO_MOMENT_INIT(hail_opt, nssl_params) ! RAS
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! THIS SUBROUTINE INITIALIZES ALL PHYSICAL CONSTANTS AMND PARAMETERS 
 ! NEEDED BY THE MICROPHYSICS SCHEME.
@@ -254,11 +254,18 @@ SUBROUTINE MORR_TWO_MOMENT_INIT(hail_opt) ! RAS
       IMPLICIT NONE
 
       INTEGER, INTENT(IN):: hail_opt ! RAS
+      REAL, DIMENSION(20) :: nssl_params ! for elec
 
       integer n,i
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! Test print ipelec
+ipelec   = Nint(nssl_params(11))
+isaund   = Nint(nssl_params(12))
+print *, "ipelec: ", ipelec
+print *, "isaund: ", isaund
 
 ! THE FOLLOWING PARAMETERS ARE USER-DEFINED SWITCHES AND NEED TO BE
 ! SET PRIOR TO CODE COMPILATION
