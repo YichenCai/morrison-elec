@@ -2878,8 +2878,8 @@ CALL lsm_mosaic_init(IVGTYP,config_flags%ISWATER,config_flags%ISURBAN,config_fla
                 CALL urban_var_init(ISURBAN,TSK,TSLB,TMN,IVGTYP,               & !urban
                               ims,ime,jms,jme,kms,kme,num_soil_layers,         & !urban
                               LOW_DENSITY_RESIDENTIAL_TABLE,                   &
-		              HIGH_DENSITY_RESIDENTIAL_TABLE,                  &
-		              HIGH_INTENSITY_INDUSTRIAL_TABLE,                 &
+                        HIGH_DENSITY_RESIDENTIAL_TABLE,                  &
+                        HIGH_INTENSITY_INDUSTRIAL_TABLE,                 &
                               restart,sf_urban_physics,                        & !urban
                               XXXR_URB2D,XXXB_URB2D,XXXG_URB2D,XXXC_URB2D,     & !urban
                               TR_URB2D,TB_URB2D,TG_URB2D,TC_URB2D,QC_URB2D,    & !urban
