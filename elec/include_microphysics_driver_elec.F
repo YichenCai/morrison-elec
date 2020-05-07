@@ -1,4 +1,4 @@
-       IF ( (mp_physics == NSSL_2MOM .or. mp_physics == NSSL_2MOMCCN ) .and. elec_physics > 0 ) THEN
+       IF ( (mp_physics == NSSL_2MOM .or. mp_physics == NSSL_2MOMCCN .or. mp_physics == MORR_TWO_MOMENT) .and. elec_physics > 0 ) THEN
 
      if (ipelectmp.gt.0)  then ! 
 
@@ -227,7 +227,7 @@
 #endif
        
        
-!       IF ( (mp_physics == NSSL_2MOM .or. mp_physics == NSSL_2MOMCCN ) .and. elec_physics > 0 ) THEN
+!       IF ( (mp_physics == NSSL_2MOM .or. mp_physics == NSSL_2MOMCCN .or. mp_physics == MORR_TWO_MOMENT) .and. elec_physics > 0 ) THEN
        IF (idischarge.eq.1) THEN
 
 !    Ziegler and MacGorman (1994,JAS) simple column discharge within cylinders
