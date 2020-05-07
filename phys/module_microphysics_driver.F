@@ -1064,6 +1064,9 @@ REAL, DIMENSION( ims:ime, kms:kme, jms:jme ),                        &
          PRESENT (QRCUTEN) .AND. PRESENT (QICUTEN).AND. &
          PRESENT (RAINNC ) .AND. PRESENT (RAINNCV) .AND. &
          PRESENT ( W      )  ) THEN
+
+          IF ( elec_physics == 0 ) THEN
+
          CALL mp_morr_two_moment(                            &
                      ITIMESTEP=itimestep,                &  !*
                      TH=th,                              &  !*
@@ -1108,6 +1111,83 @@ REAL, DIMENSION( ims:ime, kms:kme, jms:jme ),                        &
 #endif
                  ,PRECR=precr,PRECI=preci,PRECS=precs,PRECG=precg   & ! jdf for wrf-chem
                                                                     )
+
+        ELSEIF ( elec_physics > 0 .and. f_scw ) THEN
+
+#if ( WRF_ELEC >= 1 )
+         CALL mp_morr_two_moment(                            &
+                     ITIMESTEP=itimestep,                &  !*
+                     TH=th,                              &  !*
+                     QV=qv_curr,                         &  !*
+                     QC=qc_curr,                         &  !*
+                     QR=qr_curr,                         &  !*
+                     QI=qi_curr,                         &  !*
+                     QS=qs_curr,                         &  !*
+                     QG=qg_curr,                         &  !*
+                     NI=qni_curr,                        &  !*
+                     NS=qns_curr,                        &  !* ! VVT
+                     NR=qnr_curr,                        &  !* ! VVT
+                     NG=qng_curr,                        &  !* ! VVT
+                     RHO=rho,                            &  !*
+                     PII=pi_phy,                         &  !*
+                     P=p,                                &  !*
+                     DT_IN=dt,                           &  !*
+                     DZ=dz8w,                            &  !* !hm
+                     HT=ht,                              &  !*
+                     W=w                                 &  !*
+                    ,RAINNC=RAINNC                       &  !*
+                    ,RAINNCV=RAINNCV                     &  !*
+                    ,SNOWNC=SNOWNC                       &  !*
+                    ,SNOWNCV=SNOWNCV                     &  !*
+                    ,GRAUPELNC=GRAUPELNC                 &  !*
+                    ,GRAUPELNCV=GRAUPELNCV               &  !*
+                    ,SR=SR                               &  !* !hm
+                    ,REFL_10CM=refl_10cm                 &  ! added for radar reflectivity
+                    ,diagflag=diagflag                   &  ! added for radar reflectivity
+                    ,do_radar_ref=do_radar_ref           &  ! added for radar reflectivity
+                    ,qrcuten=qrcuten                     &  ! hm
+                    ,qscuten=qscuten                     &  ! hm
+                    ,qicuten=qicuten                     &  ! hm
+                    ,F_QNDROP=f_qndrop                   &  ! hm for wrf-chem
+                 ,QNDROP=qndrop_curr                     &  ! hm for wrf-chem
+                 ,IDS=ids,IDE=ide, JDS=jds,JDE=jde, KDS=kds,KDE=kde &
+                 ,IMS=ims,IME=ime, JMS=jms,JME=jme, KMS=kms,KME=kme &
+                 ,ITS=its,ITE=ite, JTS=jts,JTE=jte, KTS=kts,KTE=kte &
+                 ,QLSINK=qlsink                                     & ! jdf for wrf-chem
+#if ( WRF_CHEM == 1 )
+                 ,EVAPPROD=evapprod,RAINPROD=rainprod               &
+#endif
+                 ,PRECR=precr,PRECI=preci,PRECS=precs,PRECG=precg   & ! jdf for wrf-chem
+!-----------------------------------------------------------------------
+!Explicit lightning ----------------------------------------------------
+                     cn=qnn_curr,                        & ! modified from "CCW=qnc_curr,"
+                     CCW=qndrop_curr,                    & ! modified from "CCW=qndrop_curr,"
+                     SCR=scr,                            & !
+                     SCW=scw,                            & !
+                     SCI=sci,                            & ! P
+                     SCS=scs,                            & ! U
+                     SCH=sch,                            & ! R
+                     SCHL=schl,                          & ! E
+                     SCTOT=sctot,                        & !
+                     NONINDUC = noninduc,                & ! A
+                     rscghis_2d = rscghis_2d,            & ! D
+                     INDUC = induc,                      & ! D
+                     ELEC = elecz,                       & ! E
+                     SCION = scion,                      & ! D
+                     SCIONA = sciona,                    & !
+                     dx=dx, dy=dy,                       & !
+                     ipelectmp = ipelectmp,              & !
+!-----------------------------------------------------------------------
+!End Explicit lightning ------------------------------------------------
+                                                                        )
+
+#else
+        Call wrf_error_fatal( 'for elec_physics > 0, need to rebuild WRF with -DWRF_ELEC')
+#endif
+
+
+        ENDIF ! elec_physics
+
         ELSE
            Call wrf_error_fatal( 'arguments not present for calling morrison two moment')
         ENDIF
