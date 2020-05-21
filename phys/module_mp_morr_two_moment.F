@@ -254,8 +254,7 @@ SUBROUTINE MORR_TWO_MOMENT_INIT(hail_opt, nssl_params) ! RAS
       IMPLICIT NONE
 
       INTEGER, INTENT(IN):: hail_opt ! RAS
-      REAL, DIMENSION(20) :: nssl_params ! for elec
-
+      real,  intent(in), dimension(20) :: nssl_params
       integer n,i
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -264,8 +263,7 @@ SUBROUTINE MORR_TWO_MOMENT_INIT(hail_opt, nssl_params) ! RAS
 ! Test print ipelec
 ipelec   = Nint(nssl_params(11))
 isaund   = Nint(nssl_params(12))
-print *, "ipelec: ", ipelec
-print *, "isaund: ", isaund
+print *, "ipelec, isaund: ", ipelec, isaund
 
 ! THE FOLLOWING PARAMETERS ARE USER-DEFINED SWITCHES AND NEED TO BE
 ! SET PRIOR TO CODE COMPILATION
